@@ -1,0 +1,36 @@
+<%- include("partials/header.ejs") %>
+
+<div class="box1">
+  <h1>Work List</h1>
+</div>
+
+<div class="box">
+  <% if (locals.newTask) { %>
+  <div class="item">
+    <% for (let index = 0; index < newTask.length; index++) { %>
+    <input
+      type="checkbox"
+      id="checkbox<%= index %>"
+      data-index="<%= index %>"
+    />
+    <label for="checkbox<%= index %>"><%= newTask[index] %></label>
+
+    <hr />
+    <!-- Add a horizontal line after each label -->
+
+    <% } %>
+  </div>
+  <% } %>
+
+  <form class="item" action="/work" method="post">
+    <input
+      type="text"
+      name="newItem"
+      placeholder="New Item"
+      autocomplete="off"
+    />
+    <button type="submit" name="list" value="Work" list="">+</button>
+  </form>
+</div>
+
+<%- include("partials/footer.ejs") %>
