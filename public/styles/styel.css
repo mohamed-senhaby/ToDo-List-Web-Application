@@ -24,7 +24,7 @@ header {
 header .navbar {
   display: flex;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 1em 2em;
 }
 
 header .navbar a {
@@ -52,13 +52,13 @@ main .box1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: 5em;
   width: 30rem;
   height: auto;
-  padding: 20px;
+  padding: 2em;
   background-color: #212529;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5em;
+  box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.1);
   color: #f0f0f0;
   font-size: 2rem; /* Change the font size here */
 }
@@ -66,11 +66,11 @@ main .box1 {
 /* Styles for the .mainBox container */
 .box {
   width: 30rem;
-  margin: 20px auto;
+  margin: 2em auto;
   background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0.8em;
+  padding: 2em;
+  box-shadow: 0 0 1em rgba(0, 0, 0, 0.1);
 }
 
 .item {
@@ -91,11 +91,11 @@ label {
 
 input[type="text"] {
   flex: 1; /* Let the input field take the remaining available width */
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px;
-  font-size: 16px;
+  padding: 1em;
+  border: 0.1em solid #ccc;
+  border-radius: 0.4em;
+  margin-right: 1em;
+  font-size: 1.6em;
 }
 
 input[type="checkbox"] {
@@ -115,7 +115,7 @@ hr {
 /* Style the footer */
 footer {
   text-align: center;
-  padding: 10px;
+  padding: 1em;
   background-color: #333;
   color: #fff;
   flex-shrink: 0;
@@ -136,11 +136,11 @@ form.item input[type="text"] {
 }
 
 form.item button[type="submit"] {
-  padding: 5px 10px;
+  padding: 0.5em 1em;
   background-color: #ffcc00;
   color: #333;
   border: none;
-  border-radius: 3px;
+  border-radius: 0.3em;
   cursor: pointer;
 }
 
