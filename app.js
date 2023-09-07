@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import mongoose from "mongoose";
 
 const app = express();
 const port = 3000;
@@ -8,29 +9,111 @@ app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let todayTask = "";
-let workTask = "";
+// Connect to MongoDB
+async function connectToDatabase() {
+  try {
+    await mongoose.connect("mongodb://127.0.0.1:27017/todolistDB", {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
-app.get("/", (req, res) => {
-  res.render("today.ejs");
+    console.log("Connected to MongoDB");
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+  }
+}
+
+// Define a schema for items
+const todaySchema = new mongoose.Schema({
+  name: String,
 });
 
-app.get("/work", (req, res) => {
-  res.render("work.ejs");
+const workSchema = new mongoose.Schema({
+  name: String,
 });
 
-app.post("/", (req, res) => {
+// Create a model for items
+const ItemToday = mongoose.model("ItemToday", todaySchema);
+const ItemWork = mongoose.model("ItemWork", workSchema);
+
+// Routes
+
+// Home route
+app.get("/", async (req, res) => {
+  try {
+    const items = await ItemToday.find();
+    res.render("today.ejs", { newTask: items });
+  } catch (error) {
+    console.error("Error retrieving items:", error);
+    res.render("today.ejs", { newTask: [] });
+  }
+});
+
+// Work route
+app.get("/work", async (req, res) => {
+  try {
+    const items = await ItemWork.find();
+    res.render("work.ejs", { newTask: items });
+  } catch (error) {
+    console.error("Error retrieving items:", error);
+    res.render("work.ejs", { newTask: [] });
+  }
+});
+
+// Add task
+app.post("/", async (req, res) => {
   const newTask = req.body.newItem;
-  todayTask = todayTask ? todayTask + "\n" + newTask : newTask;
-  res.render("today.ejs", { newTask: todayTask.split("\n") });
+
+  try {
+    const item = new ItemToday({
+      name: newTask,
+    });
+
+    await item.save();
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error creating item:", error);
+    res.redirect("/");
+  }
 });
 
-app.post("/work", (req, res) => {
+app.post("/work", async (req, res) => {
   const newTask = req.body.newItem;
-  workTask = workTask ? workTask + "\n" + newTask : newTask;
-  res.render("work.ejs", { newTask: workTask.split("\n") });
+
+  try {
+    const itemWork = new ItemWork({
+      name: newTask,
+    });
+
+    await itemWork.save();
+    res.redirect("/work");
+  } catch (error) {
+    console.error("Error creating item:", error);
+    res.redirect("/work");
+  }
+});
+
+// Delete task
+app.post("/delete", async (req, res) => {
+  const itemIdToday = req.body.checkboxtoday;
+  const itemIdWork = req.body.checkboxwork;
+
+  try {
+    if (itemIdToday) {
+      await ItemToday.deleteOne({ _id: itemIdToday });
+      res.redirect("/");
+    } else {
+      await ItemWork.deleteOne({ _id: itemIdWork });
+      res.redirect("/work");
+    }
+  } catch (error) {
+    console.error("Error deleting item:", error);
+    res.redirect("/");
+  }
 });
 
 app.listen(port, () => {
-  console.log(`Server is running in port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
+
+connectToDatabase();

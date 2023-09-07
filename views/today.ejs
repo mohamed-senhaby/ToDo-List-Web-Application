@@ -11,13 +11,19 @@ today.toLocaleString('default', { month: 'long' }) +" "+ today.getDate()+"rd";
   <% if (locals.newTask) { %>
   <div class="item">
     <% for (let index = 0; index < newTask.length; index++) { %>
-    <input
-      type="checkbox"
-      id="checkbox<%= index %>"
-      data-index="<%= index %>"
-    />
-    <label for="checkbox<%= index %>"><%= newTask[index] %></label>
-
+    <form action="/delete" method="post">
+      <input
+        type="checkbox"
+        name="checkboxtoday"
+        id="checkbox<%= newTask[index]._id %>"
+        value="<%= newTask[index]._id %>"
+        data-index="<%= index %>"
+        onChange="this.form.submit()"
+      />
+      <label for="checkbox<%= newTask[index]._id %>"
+        ><%= newTask[index].name %></label
+      >
+    </form>
     <hr />
     <!-- Add a horizontal line after each label -->
 
