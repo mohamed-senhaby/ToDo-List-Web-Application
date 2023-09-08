@@ -1,9 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import 'dotenv/config'
+
 
 const app = express();
 const port = 3000;
+
 
 app.use(express.static("public"));
 
@@ -12,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Connect to MongoDB
 async function connectToDatabase() {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/todolistDB", {
+    await mongoose.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

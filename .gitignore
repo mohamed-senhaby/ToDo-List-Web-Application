@@ -1,5 +1,8 @@
 #Project—wide
 .DS_Store
+node_modules
+authentication.js
+.env
 
 # Logs
 logs
